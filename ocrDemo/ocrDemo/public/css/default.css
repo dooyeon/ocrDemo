@@ -1,0 +1,19 @@
+@charset "utf-8";
+
+@font-face {
+ font-family: 'Nanum Gothic';
+ font-style: normal;
+ src: url('/fonts/NanumGothic.eot'); IE9 Compat Modes
+ src:local('☺'),
+ src: url('/fonts/NanumGothic.eot?#iefix') format('embedded-opentype'), IE6-IE8
+      url('/fonts/NanumGothic.woff') format('woff'),  Modern Browsers
+      url('/fonts/NanumGothic.ttf')  format('truetype'),  Safari, Android, iOS
+      url('/fonts/NanumGothic.svg#svgMothnnaFont') format('svg');  Legacy iOS
+ font-weight: normal;
+}
+
+/* Common */
+html {scrollbar-face-color: #FFFFFF;scrollbar-highlight-color: #FFFFFF;scrollbar-3dlight-color: #b0b0b0;scrollbar-shadow-color: #7f7f7f;scrollbar-darkshadow-color: #F2F2F2;
+scrollbar-track-color: #FFFFFF;scrollbar-arrow-color: #7f7f7f;font-family: 나눔고딕,'Nanum Gothic','맑은 고딕',Dotum,Helvetica,Verdana,Arial,sans-serif; font-size: 12px; color:#666;}
+
+body, p, ul, ol, li, dl, dt, dd, form, table, th, td, fieldset, input, button, h1, h2, h3, h4, h5, h6, pre {margin:0; padding:0; -webkit-text-size-adjust:none; font-family: 나눔고딕,'Nanum Gothic','맑은 고딕',Dotum,Helvetica,Verdana,Arial,sans-serif; font-size: 16px;}

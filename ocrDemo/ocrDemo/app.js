@@ -13,8 +13,14 @@ var users = require('./routes/users');
 var app = express();
 
 // view engine setup
+//app.set('views', path.join(__dirname, 'views'));
+//app.set('view engine', 'pug');
+
+// view engine setup
+
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -58,7 +64,11 @@ app.use(function (err, req, res, next) {
     });
 });
 
+
+
+
 app.set('port', process.env.PORT || 3000);
+console.log("app.js port : " + app.get('port')) ;
 
 var server = app.listen(app.get('port'), function () {
     debug('Express server listening on port ' + server.address().port);

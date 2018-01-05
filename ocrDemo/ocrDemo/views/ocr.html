@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        TIIS Manager
+    </title>
+
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+    <%include  ./header.html%>
+
+    <div id="wrap">
+        <div id="container" class="main">
+            <div id="sub_cont03">
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+<a href="javascript://" class="sbtn js-open-modal" id="btn_uploadDlgImg" data-modal-id="img_uploadV" style="display:none;"><spring:message code='button.preview'/></a>
+<div id="img_uploadV" class="modal_box w600" style="height: auto">
+      <header> <a href="#" class="js-modal-close close">×</a>
+        <h3>ocr 이미지 선택</h3>
+        <p>(이곳에 이미지 크기 제한 찾아서 써야합니다.)</p>
+      </header>
+    <div class="modal-body">
+        <div class="gallery_wrap">
+            <div class="gallery">
+                <div>
+                    <form name="uploadForm" id="uploadForm" method="post" enctype="multipart/form-data">
+                        <p class="texcon01">이미지업로드  </p>
+                        <p>
+                        <label class="btn" for="upload_file">파일선택</label>&nbsp;<span id="upload-name">(선택된 파일 없음)</span>
+                        <input type="file" name="uploadFile" class="upload-hidden" id="upload_file" accept="image/*" style="display:none;"/>
+                        <a href="javascript://" class="btn b02  btn-small" onclick="initFile();">초기화</a>
+                        </p>
+                    </form>
+                    <!-- 미리보기 -->
+                    <img id="previewPic" src="#"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <footer> <a href="#" class="btn b02  btn-small js-modal-close">확인</a> </footer> -->
+    <footer>
+        <input type="button" class="btn" id="btn_fileupload" value="저장" disabled="disabled" style="opacity:0.5"/>
+        <a href="#" class="btn b02  btn-small js-modal-close">취소</a>
+    </footer>
+</div>
+
+
+
+
+</html>
