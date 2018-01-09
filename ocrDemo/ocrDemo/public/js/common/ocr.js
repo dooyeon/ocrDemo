@@ -1,4 +1,6 @@
-﻿// 파일첨부
+﻿
+
+
 $(document).ready(function () {
     var fileTarget = $('.gallery_wrap .upload-hidden');
 
@@ -79,13 +81,154 @@ $(document).ready(function () {
         $('#rotation').val(angle);
 
     });
+
+
+
+
+
+    $('#btn_crte_insert2').click(function () {
+
+        var aa = '';
+        $.ajax({
+            url: '/translator',                //주소
+            dataType: 'json',                  //데이터 형식
+            type: 'POST',                      //전송 타입
+            data: {'test':'test'},      //데이터를 json 형식, 객체형식으로 전송
+
+            success: function(result) {          //성공했을 때 함수 인자 값으로 결과 값 나옴
+                
+
+                if ( result['result'] == true ) {
+
+                    var obj = JSON.parse(result['value']);
+                    console.log(obj);
+                    //$('#transTest').html(aa);
+                    
+                    
+                }
+            } //function끝
+
+        }); // ------      ajax 끝-----------------
+
+
+    });
+
+    $('#btn_crte_insert3').click(function () {
+        $.ajax({
+            url: '/bingSpeech',                //주소
+            dataType: 'json',                  //데이터 형식
+            type: 'POST',                      //전송 타입
+            data: {'test':'test'},      //데이터를 json 형식, 객체형식으로 전송
+
+            success: function(result) {          //성공했을 때 함수 인자 값으로 결과 값 나옴
+                console.log();
+            } //function끝
+
+        });
+    });
+
+    $('#btn_crte_insert4').click(function () {
+        
+        $("#chkTranVal").trigger("click");
+
+    });
+
+
+    //utter 체크박스 전체선택 
+    $('#allCheck').parent().click(function() {
+        if (typeof $('#allCheck').parent().attr('checked') != 'undefined') {
+            $("input[name=ch1]").each(function() {
+                if ( typeof $(this).parent().attr("checked") == 'undefined' ) {
+                    $(this).parent().attr("checked", '');
+                }
+            });
+        } else {
+            $("input[name=ch1]").each(function() {
+                if ( typeof $(this).parent().attr("checked") != 'undefined' ) {
+                    $(this).parent().removeAttr('checked');
+                }
+            });
+        }
+    });
+
+
+
+    $('#btn_ocrText').click(function() {
+
+        var ocrArr = new Array();
+        
+        $("input[name=ch1]").each(function() {
+
+            if ( typeof $(this).parent().attr("checked") != 'undefined' ) {
+                ocrArr.push($(this).parents('tr').find('input[name=ocrSelText]').val());
+            }
+        
+        });
+
+        $.ajax({
+            url: '/translator',                //주소
+            dataType: 'json',                  //데이터 형식
+            type: 'POST',                      //전송 타입
+            data: {'ocrArr':ocrArr},      //데이터를 json 형식, 객체형식으로 전송
+
+            success: function(result) {          //성공했을 때 함수 인자 값으로 결과 값 나옴
+                
+
+                if ( result['result'] == true ) {
+
+                    var obj = JSON.parse(result['value']);
+                    console.log(obj);
+                    $('.js-modal-close').trigger('click');
+
+                    var transList = obj['ArrayOfGetTranslationsResponse'].GetTranslationsResponse;
+                    for (var i=0; i<transList.length; i++) {
+                        resultArrEng.push(transList[i].Translations.TranslationMatch.TranslatedText._text);
+                    }
+                    
+                }
+            } //function끝
+        });
+
+    });
+
+    $('#btn_speak').click(function () {
+        $.ajax({
+            url: '/bingSpeech',                //주소
+            dataType: 'json',                  //데이터 형식
+            type: 'POST',                      //전송 타입
+            data: {'resultArrEng':resultArrEng},      //데이터를 json 형식, 객체형식으로 전송
+
+            success: function(result) {          //성공했을 때 함수 인자 값으로 결과 값 나옴
+                console.log();
+            } //function끝
+
+        });
+    });
+
 });
+
+//checkbox 선택시 이벤트 $(this).attr("checked")
+$(document).on('click','div[type=checkbox]',function(event){
+
+    if (typeof $(this).attr("checked") == 'undefined') {
+        $(this).attr("checked", "");
+    } else {
+        $(this).removeAttr('checked');
+    }
+    
+});
+
+
+
+
+
+
 
 function uploadDlgImg() {
 
     //파일입력초기화
     initFile();
-
+    
     // 이미지 업로드 표시
     $("#btn_uploadDlgImg").trigger("click");
 }
@@ -107,6 +250,9 @@ function initFile() {
     $('#btn_fileupload').css('opacity', 0.5);
     //미리보기 초기화
     $('#previewPic').removeAttr('src');
+
+    $('#ocrValidationDiv').html('<input type="text" name="ocrValidation" value="" /> ');
+    
 }
 
 function fn_fileUpload() {
@@ -121,14 +267,29 @@ function fn_fileUpload() {
 }
 
 
+var validationArr = [ "주의", "포함", "제품" ]; 
 
-
-
+var resultArr;
+var resultArrEng = new Array();
+function addTextOfLine(data) {
+    resultArr = new Array();
+    for (var i = 0; i < data.length; i++) {
+        var lines = data[i].lines;
+        for (var j = 0; j < lines.length; j++) {
+            var words = lines[j].words;
+            var textTmp = '';
+            for (var k = 0; k < words.length; k++) {
+                textTmp += words[k].text + (k == data[i].lines[j].words.length - 1 ? '' : ' ');
+            }
+            resultArr.push(textTmp);
+        }
+    }
+}
 
 
 function processImage() {
     $('#dataForm').html('');
-    var subscriptionKey = "f2f4e2ebe5fb476e8b806b64ce383832";
+    var subscriptionKey = "9edb0cb7e5ed417b84614a6a3f3988ab";
     var uriBase = "https://westus.api.cognitive.microsoft.com/vision/v1.0/ocr";
 
 
@@ -166,17 +327,18 @@ function processImage() {
             //appendForm(data.regions)
             //console.log(data);
             //$("#responseTextArea").val(JSON.stringify(data, null, 2));
-            if ($('#rotation').val() == '') {
-                //addTextOfLine(data.regions);
-                $('#rotation').val('0');
-                $('#img').attr('src', azureBaseUrl+sourceImageUrl);
+            
+            addTextOfLine(data.regions);
+            $('#rotation').val('0');
+            $('#img').attr('src', azureBaseUrl+sourceImageUrl);
+            pushValidationArr();
+            makeHtmlOcr();
+            initCheckBox();
+            $('#img_uploadV .js-modal-close').trigger('click');
 
-                
-                
-            } else {
-                $('#rotation').val('');
-                appendDataForm(data.regions);
-            }           
+            $("#chkTranVal").trigger("click");
+            
+    
         })
 
         .fail(function (jqXHR, textStatus, errorThrown) {
@@ -186,5 +348,88 @@ function processImage() {
             alert(errorString);
         });
 }
+
+function pushValidationArr() {
+    $('input[name=ocrValidation]').each( function() {
+
+        if ( $(this).val() != '' ) {
+            validationArr.push($(this).val());
+            if($(this).val() == '돼지') {
+                validationArr.push('고기');
+            }
+        }
+    });
+    
+    
+}
+
+
+function makeHtmlOcr() {
+    //$('#ocrTable')
+
+    var ocrHtml = '';
+    for (var i=0; i<resultArr.length; i++) {
+        /*
+        var ocrText = resultArr[i];
+        if (ocrText.indexOf('고기') != -1 || ocrText.indexOf('주의') != -1 || ocrText.indexOf('돼지') != -1 
+                                            || ocrText.indexOf('포함') != -1 ||  ocrText.indexOf('제품') != -1 ) {
+            ocrHtml += '<tr> <td> <div class="check-radio-tweak-wrapper" type="checkbox" checked="">';
+            ocrHtml += '<input name="ch1" class="tweak-input" type="checkbox"  onclick="" /> </div> </td>';
+        } else {
+            ocrHtml += '<tr> <td> <div class="check-radio-tweak-wrapper" type="checkbox">';
+            ocrHtml += '<input name="ch1" class="tweak-input" type="checkbox"  onclick="" /> </div> </td>';
+        }
+        */
+        ocrHtml += '<tr> <td> <div class="check-radio-tweak-wrapper" type="checkbox">';
+        ocrHtml += '<input name="ch1" class="tweak-input" type="checkbox"  onclick="" /> </div> </td>';
+        ocrHtml += '<td class="txt_left" > <input type="text" style="width: 90% !important;" name="ocrSelText" value="' + resultArr[i] + '" /> </td></tr>';
+    }
+
+    $('#ocrTableBody').html(ocrHtml);
+}
+
+function initCheckBox() {
+    //validationArr
+    $("input[name=ch1]").each(function() {
+        for (var i=0; i< validationArr.length; i++ ){
+
+            if ( $(this).parents('tr').find('input[name=ocrSelText]').val().indexOf( validationArr[i] ) != -1 ) {
+                $(this).parent().attr("checked", '');
+            }
+        }
+        
+    });
+}
+
+
+function addValidation() {
+    
+    $('#ocrValidationDiv').append(
+        '<input type="text" name="ocrValidation" value="" /> '
+    );
+
+}
+
+/*
+function translate() {
+    var aa = '';
+    $.ajax({
+        url: '/index/translator',                //주소
+        dataType: 'json',                  //데이터 형식
+        type: 'POST',                      //전송 타입
+        data: {'iptUtterance':'test'},      //데이터를 json 형식, 객체형식으로 전송
+
+        success: function(result) {          //성공했을 때 함수 인자 값으로 결과 값 나옴
+            
+
+            if ( result['result'] == true ) {
+                console.log('test');
+            }
+        } //function끝
+
+    }); // ------      ajax 끝-----------------
+}
+
+*/
 
 

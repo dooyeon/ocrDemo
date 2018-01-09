@@ -58,7 +58,7 @@ h2.subtit02{ font-size:14px; font-weight:600; background:url(../images/ico_subti
 
 
 /* 기본 table */
-.Tbl_wrap{width:100%;display:inline-block;border-top: solid 2px #002c5f}
+.Tbl_wrap{width:100%;display:inline-block;border-top: solid 2px #002c5f;}
 .Tbl_wrap_br{width:98%;display:inline-block; border:solid 1px #eee; padding:1%}
 .Tbl {border-collapse:collapse;width:100%; clear:both;  }
 /*.Tbl tbody tr:hover{ background-color:#eee; cursor:pointer}*/
@@ -96,7 +96,7 @@ h2.subtit02{ font-size:14px; font-weight:600; background:url(../images/ico_subti
 
 
 /*modal popup*/
-.modal_box {display: none;position: absolute;z-index: 1000;width:70%;background:#fff;border-radius: 4px;box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);border: 1px solid rgba(0, 0, 0, 0.1);background-clip: padding-box; padding:20px}
+.modal_box {display: none; overflow-y: auto; position: absolute;z-index: 1000;width:70%;background:#fff;border-radius: 4px;box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);border: 1px solid rgba(0, 0, 0, 0.1);background-clip: padding-box; padding:20px}
 .modal_box.w600{ width:560px; height:200px;}
 .modal_box.toph{ margin-top:-100px}
 .modal_box header { height:40px; line-height:40px }

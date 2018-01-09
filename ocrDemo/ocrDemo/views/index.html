@@ -29,6 +29,14 @@
 
                 <div >
                     <a href="javascript://" class="btn" id="btn_crte_insert1" name="btn_crte_insert1" alt="추가" value="추가" onclick="uploadDlgImg();">이미지 선택</a>
+
+                    <a href="javascript://" class="btn" id="btn_speak" name="btn_speak" alt="번역" value="번역"s>말하기</a>
+
+                    <a href="javascript://" class="btn" id="btn_crte_insert4" name="btn_crte_insert4" alt="번역" value="번역"s>ocr 값</a>
+
+                    <a href="javascript://" class="btn" id="btn_crte_insert2" name="btn_crte_insert2" alt="번역" value="번역"s>번역 테스트</a>
+
+                    <a href="javascript://" class="btn" id="btn_crte_insert3" name="btn_crte_insert3" alt="번역" value="번역"s>스피커 테스트</a>
                 </div>
 
                 <div class="floatLeft">
@@ -54,6 +62,12 @@
                         </tbody>
                     </table>
                 </div>
+
+
+                <div class="floatLeft2" id="transTest">
+
+
+                </div>
             </div>
         </div>
     </div>
@@ -61,16 +75,27 @@
 
 <input type="hidden" name="rotation" id="rotation" />
 
-<a href="javascript://" class="sbtn js-open-modal" id="btn_uploadDlgImg" data-modal-id="img_uploadV" style="display:none;"><spring:message code='button.preview'/></a>
-<div id="img_uploadV" class="modal_box w600" style="height: auto">
+<a href="javascript://" class="sbtn js-open-modal" id="btn_uploadDlgImg" data-modal-id="img_uploadV" style="display:none;">이미지업로드</a>
+<div id="img_uploadV" class="modal_box w600" style="height: 60%">
       <header> <a href="#" class="js-modal-close close">×</a>
         <h3>ocr 이미지 선택</h3>
         <p>(이곳에 이미지 크기 제한 찾아서 써야합니다.)</p>
+        <div>
+            <div style="float:right">
+                <a href="javascript://" id="addValidation" onclick="addValidation();">[추가]</a>
+            </div>
+            <div id="ocrValidationDiv">
+                <input type="text" name="ocrValidation" value="" />
+
+            </div>
+        </div>
       </header>
     <div class="modal-body">
+        
         <div class="gallery_wrap">
             <div class="gallery">
-                <div>
+                   
+                <div style="overFlow-y : auto !important;">
                     <form name="uploadForm" id="uploadForm" method="post" enctype="multipart/form-data">
                         <p class="texcon01">이미지업로드  </p>
                         <p>
@@ -88,6 +113,35 @@
     <!-- <footer> <a href="#" class="btn b02  btn-small js-modal-close">확인</a> </footer> -->
     <footer>
         <input type="button" class="btn" id="btn_fileupload" value="저장" disabled="disabled" style="opacity:0.5"/>
+        <a href="#" class="btn b02  btn-small js-modal-close">취소</a>
+    </footer>
+</div>
+
+
+<a href="javascript://" class="sbtn js-open-modal" id="chkTranVal" data-modal-id="ocrDiv" style="display:none;">번역결과</a>
+<div id="ocrDiv" class="modal_box w600" style="height: 70%">
+      <header> <a href="#" class="js-modal-close close">×</a>
+        <h3>ocr 결과</h3>
+      </header>
+    <div class="modal-body">
+        <div class="Tbl_wrap">
+            <table class="Tbl" id="ocrTable" summary="ocr">
+                <colgroup><col width="7%" ><col width="90%" ></colgroup>
+                <thead>
+                    <tr>
+                        <th><input name="ch1All" class="tweak-input" id="allCheck" type="checkbox"/></th>
+                        <th class="txt_left">text</th>
+                    </tr>
+                </thead>
+                <tbody id="ocrTableBody">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- <footer> <a href="#" class="btn b02  btn-small js-modal-close">확인</a> </footer> style="opacity:0.5"-->
+    <footer>
+        <input type="button" class="btn" id="btn_ocrText" value="저장" />
         <a href="#" class="btn b02  btn-small js-modal-close">취소</a>
     </footer>
 </div>
